@@ -14,9 +14,9 @@ Test-Driven Development philosophy or automate testing
 
 Table of content:
 
-[Requirements](#requirements)
-[Install](#install)
-[Use](#use)
+*[Requirements](#requirements)
+*[Install](#install)
+*[Use](#use)
 
 
 Requirements
