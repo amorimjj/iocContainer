@@ -24,6 +24,7 @@ Requirements
 PHP 5.3 or above
 
 Install
+-------
 
 Download iocContainer (you just need ioc folder) and include IocContainer.php to your code.
 
