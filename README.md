@@ -14,12 +14,13 @@ Test-Driven Development philosophy or automate testing
 
 Table of content:
 
-[Requirements]
-[Install]
-[Use]
+[Requirements](#requirements)
+[Install](#install)
+[Use](#use)
 
 
 Requirements
+------------
 
 PHP 5.3 or above
 
