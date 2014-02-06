@@ -30,7 +30,7 @@
             //$instance1 === $instance2 true;
             
             //Defining default values            
-            $ioc->setRegisters(array('Class0'=>array('prop0'=>'test')));
+            $ioc->register('Class0',array('prop0'=>'test'));
             
             $instance = $ioc->getInstance('Class0'); //$instance->prop0 has "test" as value
             
