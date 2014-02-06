@@ -94,6 +94,7 @@ $instance3 = $ioc->getInstance('Class0');
 //$instance1 === $instance3 false;
 
 ...
+```
 
 ### Getting instance from registered **Interface** ###
 
@@ -105,6 +106,7 @@ $instance3 = $ioc->getInstance('Class0');
  $instance = $ioc->getInstance('IClass'); //$instance is instance of concrete class registered to IClass
 
 ...
+```
 
 ### Getting instance from registered **Abstract Class** ###
 
@@ -116,6 +118,7 @@ $instance3 = $ioc->getInstance('Class0');
  $instance = $ioc->getInstance('AbstractClass'); //$instance is instance of concrete class registered to AbstractClass
 
 ...
+```
 
 ### **Registers** ###
 
@@ -129,3 +132,4 @@ Some dependencies like Interfaces and Abstract Classes are not resolved alone an
  $ioc->register('IClass','Class2'); //Class2 must be a IClass implementation
 
 ...
+```
