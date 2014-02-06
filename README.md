@@ -23,7 +23,7 @@ Table of content:
     * [Getting instance from registered Interface](#getting-instance-from-registered-interface)
     * [Getting instance from registered Abstract Class](#getting-instance-from-registered-abstract-class)
     * [Registers](#registers)
-        *[Registering concrete class to interface](#registering-concrete-class-to-interface)
+        * [Registering concrete class to interface](#registering-concrete-class-to-interface)
 
 Requirements
 ------------
