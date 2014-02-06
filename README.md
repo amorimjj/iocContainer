@@ -76,6 +76,7 @@ $instance = $ioc->getInstance('Class0'); // $intance is instance of Class0
 $instance = $ioc->getInstance('\test\test2\Class4'); // $intance is instance of \test\test2\Class4
 
 ...
+```
 
 ### Getting singleton instances ###
 
