@@ -124,7 +124,7 @@ $instance3 = $ioc->getInstance('Class0');
 
 Some dependencies like Interfaces and Abstract Classes are not resolved alone and should be defined which concrete class iocContainer will use.
 
-//Registering concrete class to interface
+#### Registering concrete class to interface ####
 
 ```php
 ...
