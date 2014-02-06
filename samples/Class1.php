@@ -17,6 +17,37 @@ class Class1 {
     {
         $this->_class->method();
     }
+    
+    public function getClass()
+    {
+        return $this->_class;
+    }
 }
 
+class Class10
+{
+  //your code here
+}
+
+class Class11
+{
+    public $dep;
+
+    public function __construct(Class10 $instance)
+    {
+        $this->dep = $instance;
+    }
+}   
+
+class Class12
+{
+    public $dep1;
+    public $dep2;
+
+    public function __construct(Class11 $dep1, Class1 $dep2)
+    {
+        $this->dep1 = $dep1;
+        $this->dep2 = $dep2;
+    }
+}
 ?>

@@ -5,13 +5,13 @@
  *
  * @author Jeferson Amorim <amorimjj@gmail.com>
  */
-namespace ioc {
+namespace ioc\helpers {
 
     class IocMap {
 
         public static function register(array $registerData)
         {
-            $registers = new IocRegisters();
+            $registers = new \ioc\IocRegisters();
             foreach ($registerData as $id => $data)
                 $registers->add($id, $data);
 

@@ -5,7 +5,7 @@
  * @author Jeferson Amorim <amorimjj@gmail.com>
  */
 
-namespace ioc {
+namespace ioc\helpers\validators {
 
     class IocValidators
     {
@@ -38,6 +38,20 @@ namespace ioc {
             $class = new \ReflectionClass($className);
             return $class->implementsInterface($interfaceName);
         }
+        
+        /**
+         *
+         * @param string $parent
+         * @param string $className
+         * @return boolean 
+         */
+        public static function isClassParentOfClass($parent, $className)
+        {
+            if ( $parent === $className )
+                return true;
+            
+            return is_subclass_of($className, $parent);
+        }
 
         /**
          *
@@ -56,26 +70,8 @@ namespace ioc {
          */
         public static function isValidRegister($registers)
         {
-            return is_array($registers) && self::validateSecondParameterToRegister($registers);
+            return is_array($registers);
         }
-
-        protected static function validateSecondParameterToRegister($registers)
-        {
-            if ( is_array($param = reset($registers)) && ! array_key_exists('class', $param) )
-                throw new \InvalidArgumentException('Class parameter should has a \'class\' key');
-
-            return true;
-        }
-
-        /**
-         * @param string $namespace
-         * @return boolean
-         */
-        /*public static function isValidYiiNamespace($namespace)
-        {
-            return  ! (strpos($namespace, '.') === false );
-        }*/
-
     }
 }
 ?>

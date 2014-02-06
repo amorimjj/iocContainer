@@ -9,14 +9,17 @@
 namespace ioc {
     
     require_once 'IocInstanceBuilder.php';
-    require_once 'IocValidators.php';
+    require_once 'helpers/validators/IocValidators.php';
+    require_once 'helpers/validators/IocRegisterValidator.php';
     require_once 'IocRegisters.php';
-    require_once 'IocMap.php';
+    require_once 'helpers/IocMap.php';
     require_once 'exceptions/InvalidClassException.php';
     require_once 'exceptions/InvalidClassToInterfaceException.php';
     require_once 'exceptions/InvalidInstanceException.php';
     require_once 'exceptions/InvalidInterfaceException.php';
     require_once 'exceptions/UnregisteredInterfaceException.php';
+    
+    use ioc\helpers\validators\IocValidators;
 
     class IocContainer
     {
@@ -32,29 +35,9 @@ namespace ioc {
 
         private $_extenalLoaderFunction = null;
 
-        /**
-         * 
-         * @param string $interfaceName Name of interface
-         * @param string $className Name of class
-         * @throws InvalidInterfaceException
-         * @throws InvalidClassException
-         * @throws InvalidClassToInterfaceException
-         */
-        protected function validateRegister($interfaceName, $className)
-        {
-            if ( !IocValidators::isInterface($interfaceName))
-                throw new exceptions\InvalidInterfaceException($interfaceName);
-
-            if ( !IocValidators::isValidClass($className))
-                throw new exceptions\InvalidClassException($className);
-
-            if ( !IocValidators::isInterfaceImplementedByClass($interfaceName, $className) )
-                throw new exceptions\InvalidClassToInterfaceException($className, $interfaceName);
-        }
-
         protected function registerFromInitIfFound($object)
         {
-            if ( ! $this->_instanceBuilder->registers->hasRegisterTo($object) ||  $this->_instanceBuilder->registers->hasRegisteredInstance($object) )
+            if ( ! $this->_instanceBuilder->registers->hasRegisterTo($object) ||  $this->_instanceBuilder->registers->hasRegisteredInstance($object) || $this->_instanceBuilder->registers->get($object)->justSettingDefaultValues() )
                  return;
 
             $completeClassName = $this->_instanceBuilder->registers->get($object)->class;
@@ -83,7 +66,6 @@ namespace ioc {
 
         public function register($interfaceName, $className)
         {
-            $this->validateRegister($interfaceName, $className);
             $this->_instanceBuilder->registers->add($interfaceName, $className);
         }
 
@@ -120,7 +102,7 @@ namespace ioc {
             if (!IocValidators::isValidRegister($registers))
                 throw new \InvalidArgumentException('Argument registers should be an array');
 
-            $this->_instanceBuilder->registers = IocMap::register($registers);
+            $this->_instanceBuilder->registers = helpers\IocMap::register($registers);
         }
 
         public function setExternalLoaderClass($externalLoader)

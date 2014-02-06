@@ -8,6 +8,8 @@
 
 namespace ioc {
     
+    use \ioc\helpers\validators\IocValidators;
+    
     class IocInstanceBuilder {
 
         /**

@@ -7,6 +7,8 @@
  */
 class Class2 implements IClass {
     
+    public $prop1;
+    
     public function method() {
         echo 'called method from Class2';
     }

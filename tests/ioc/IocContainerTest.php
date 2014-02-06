@@ -3,6 +3,8 @@
 require dirname(__FILE__) . '/../../ioc/IocContainer.php';
 require 'fakes/ITest.php';
 require 'fakes/SubjectFake.php';
+require 'fakes/AbstractClass.php';
+require 'fakes/ClassTest0.php';
 require 'fakes/ClassTest1.php';
 require 'fakes/ClassTest2.php';
 require 'fakes/ClassTest3.php';
@@ -28,8 +30,8 @@ class IocContainerTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testRegister_WhenTryRegisterAClassToAnInvalidInterface_ShouldThrowInvalidInterfaceException() {
-        $this->setExpectedException('\ioc\exceptions\InvalidInterfaceException', 'Invalid interface: IInvalid');
-        $this->_ioc->register('IInvalid', 'Class');
+        $this->setExpectedException('\ioc\exceptions\InvalidClassException', 'Invalid class: IInvalid');
+        $this->_ioc->register('IInvalid', 'ClassTest1');
     }
     
     public function testRegister_WhenTryRegisterAClassToAValidInterfaceButClassIsInvalid_ShouldThrowInvalidClassException() {
@@ -39,8 +41,8 @@ class IocContainerTest extends PHPUnit_Framework_TestCase {
     
     public function testRegister_WhenTryRegisterAClassToAValidInterfaceButClassDoesntImplementsIt_ShouldThrowInvalidClassToInterfaceException()
     {
-        $this->setExpectedException('\ioc\exceptions\InvalidClassToInterfaceException', 'Class \ioc\IocValidators is invalid to interface SplSubject');
-        $this->_ioc->register('SplSubject', '\ioc\IocValidators');
+        $this->setExpectedException('\ioc\exceptions\InvalidClassToInterfaceException', 'Class \ioc\helpers\validators\IocValidators is invalid to interface SplSubject');
+        $this->_ioc->register('SplSubject', '\ioc\helpers\validators\IocValidators');
     }
     
     public function testRegister_WhenTryRegisterAClassToAValidInterfaceWhenImplementsIt_CantThrowException()
@@ -89,6 +91,12 @@ class IocContainerTest extends PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('ClassTest3', $this->_ioc->getInstance('ClassTest3'));
     }
     
+    public function testGetInstance_WhenTryRetreiveAnInstanceToARegisteredAbstractClass_ShouldReturnAResgiteredClassInstance()
+    {
+        $this->_ioc->register('AbstractClass', 'ClassTest0');
+        $this->assertInstanceOf('ClassTest0', $this->_ioc->getInstance('AbstractClass'));
+    }
+    
     public function testGetInstance_WhenTryRetreiveAnInstanceToAValidClass_ShouldReturnAClassInstance1()
     {
         $this->assertInstanceOf('ClassTest4', $this->_ioc->getInstance('ClassTest4'));
@@ -134,8 +142,10 @@ class IocContainerTest extends PHPUnit_Framework_TestCase {
         $this->_ioc->setRegisters(null);
     }
     
-    public function testSetRgisters_WhenSetValidRegisters_CantCallRegisterUntilTryRetrieveInstance()
+    // Verificar se faz sentindo
+    /*public function testSetRgisters_WhenSetValidRegisters_CantCallRegisterUntilTryRetrieveInstance()
     {
+        $this->markTestSkipped();
         $ioc = $this->getMockBuilder('IocContainer')
                 ->disableOriginalConstructor()
                 ->setMethods(array('register'))
@@ -145,7 +155,7 @@ class IocContainerTest extends PHPUnit_Framework_TestCase {
                 ->method('register');
         
         $this->_ioc->setRegisters(array('ITest', 'ClassTest6'));
-    }
+    }*/
     
     public function testGetSingletonInstance_WhenTryGetSingletonInstance_ShouldReturnAlwaysTheSameInstance()
     {
@@ -192,12 +202,6 @@ class IocContainerTest extends PHPUnit_Framework_TestCase {
     {
         $this->_ioc->setRegisters(array('Class2'=>array('class'=>'Class4')));
         $this->assertInstanceOf('Class4', $this->_ioc->getInstance('Class2'));
-    }
-    
-    public function testSetRegisters_WhenTrySetANewRegisterAndSecondParameterIsAnArray_SecondParamentShouldHasAKeyClass()
-    {
-        $this->setExpectedException('InvalidArgumentException', 'Class parameter should has a \'class\' key');
-        $this->_ioc->setRegisters(array('Class2'=>array('erro'=>'Class4')));
     }
     
     public function testSetRegisters_WhenTrySetANewRegisterAndSecondParameterIsAnArray_ShouldSetParametersValue()

@@ -8,6 +8,8 @@
 
 namespace ioc {
     
+    use \ioc\helpers\validators\IocRegisterValidator;
+    
     class IocRegisters {
 
         /**
@@ -30,22 +32,19 @@ namespace ioc {
         }
 
 
-        public function add($id, $data)
-        {
+        public function add($id, $data, $registeringInstance = null)
+        {   
             $register = $this->getRegister($id);
             $register->setData($data);
+            $register->instance = $registeringInstance;
+            $register->validate();
 
             $this->_registers[$register->id] = $register;
         }
-
+        
         public function addInstance($id, $instance)
         {
-            if ( ! IocValidators::isInstanceValidToObject($id, $instance) )
-                    throw new exceptions\InvalidInstanceException($id);
-
-            $this->add($id, get_class($instance));
-            $register = $this->getRegister($id);
-            $register->instance = $instance;
+            $this->add($id, get_class($instance), $instance);
         }
 
         public function hasRegisteredInstance($id)
@@ -82,14 +81,18 @@ namespace ioc {
     }
 
     class IocRegister {
+        
         public $id;
         public $class;
         public $instance;
         public $properties = array();
+        
+        private $_validate;
 
         public function __construct($id)
         {
             $this->id = $id;
+            $this->_validate = new IocRegisterValidator($this);
         }
 
         public function setData($data)
@@ -99,13 +102,32 @@ namespace ioc {
 
             $this->class = $data;
         }
+        
+        public function validate()
+        {
+            $this->_validate->validate();
+        }
+        
+        public function justSettingDefaultValues()
+        {
+            return $this->id == $this->class;
+        }
+        
+        protected function setClassFromArray(array &$data)
+        {
+            if ( ! isset($data['class']))
+                return ($this->class = $this->id);
+            
+            $this->class = $data['class'];
+            unset($data['class']);   
+        }
 
         protected function setDataFromArray(array $data)
         {
-            $this->class = $data['class'];
-            unset($data['class']);
+            $this->setClassFromArray($data);
             $this->properties = $data;
         }
     }
+    
 }
 ?>
