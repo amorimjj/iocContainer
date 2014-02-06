@@ -17,6 +17,7 @@ Table of content:
 * [Requirements](#requirements)
 * [Install](#install)
 * [Use](#use)
+    * [Getting ioc's container instance](#getting ioc)
 
 
 Requirements
@@ -33,6 +34,17 @@ Download iocContainer (you just need ioc folder) and include IocContainer.php to
 ...
 
 include '/path_to_ioc_folder/ioc/IocContainer.php';
+
+...
+```
+
+Getting ioc's container instance
+--------------------------------
+
+```php
+...
+
+$ioc = \ioc\IocContainer::getContainer();
 
 ...
 ```
