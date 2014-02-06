@@ -24,6 +24,10 @@ Table of content:
     * [Getting instance from registered Abstract Class](#getting-instance-from-registered-abstract-class)
     * [Registers](#registers)
         * [Registering concrete class to interface](#registering-concrete-class-to-interface)
+        * [Registering concrete class to Abstract Class](#registering-concrete-class-to-abstract-class)
+        * [Registering a implementation to existing concrete class](#registering-a-implementation-to-existing-concrete-class)
+        * [Registering instances](#registering-instances)
+        * [Defining instance's default values](#defining-instances-default-values)
 
 Requirements
 ------------
@@ -115,7 +119,7 @@ $instance3 = $ioc->getInstance('Class0');
 ```php
 ...
 
- $instance = $ioc->getInstance('AbstractClass'); //$instance is instance of concrete class registered to AbstractClass
+ $instance = $ioc->getInstance('Class000'); //$instance is instance of concrete class registered to AbstractClass
 
 ...
 ```
@@ -129,7 +133,96 @@ Some dependencies like Interfaces and Abstract Classes are not resolved alone an
 ```php
 ...
 
- $ioc->register('IClass','Class2'); //Class2 must be a IClass implementation
+interface IClass {
+     public function method();
+ }
 
+ class Class2 implements IClass {
+
+     public $prop1;
+
+     public function method() {
+         //some code here
+     }
+ }
+
+$ioc->register('IClass','Class2'); //Class2 must be a IClass implementation
+
+...
+```
+
+#### Registering concrete class to Abstract Class ####
+
+```php
+...
+
+ $ioc->register('Class000','Class0000'); //Class0000 should extend Class000
+
+...
+```
+
+#### Registering a implementation to existing concrete class ####
+
+```php
+...
+
+class MyDateTime extends DateTime
+{
+    public function __construct($object) {
+        parent::__construct('1985-10-03', $object);
+    }
+
+    public function __toString() {
+        return $this->format('Y-m-d H:i');
+    } 
+}
+
+$ioc->register('DateTime', 'MyDateTime');
+
+$instance = $ioc->getInstance('DateTime'); //$instance is instance of MyDateTime
+
+...
+```
+
+#### Registering instances ####
+
+Instance's register can help in some cases, like test context.
+
+```php
+...
+
+$instance1 = new Class2();
+$ioc->registerInstance('IClass', $instance1);
+$instance2 = $ioc->getInstance('IClass');
+
+//$instance1 === $instance2 true;
+...
+```
+
+#### Defining instance's default values ####
+
+```php
+...
+
+class Class0 {
+    public $prop0;
+}
+
+$ioc->register('Class0',array('prop0'=>'test'));
+$instance = $ioc->getInstance('Class0'); //$instance->prop0 has "test" as value
+
+...
+```
+
+Using Interfaces or Abstract Class, a concrete class should be specified.Use a key *'class'* on array to do it
+
+```php
+...
+$ioc->register('IClass',array(
+                'class' => 'Class2',
+                'prop1' => 'value1'
+                ));
+            
+$instance1 = $ioc->getInstance('IClass'); //$instance1 is a Class2 instance and $instance1->prop1 has "value1" as value
 ...
 ```

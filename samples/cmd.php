@@ -34,13 +34,13 @@
             
             $instance = $ioc->getInstance('Class0'); //$instance->prop0 has "test" as value
             
-            $ioc->setRegisters(array('IClass'=>array(
+            $ioc->register('IClass',array(
                 'class' => 'Class2',
                 'prop1' => 'value1'
-                )));
+                ));
             
             $instance1 = $ioc->getInstance('IClass'); //$instance1->prop1 has "value1" as value
-        
+            
         //Getting instance from concrete class
         $instance = $ioc->getInstance('Class0'); // $intance is instance of Class0
         
@@ -105,5 +105,6 @@
 
         //Reseting container
          $ioc->reset();
+         
         
 ?>
