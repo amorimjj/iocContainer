@@ -7,10 +7,10 @@ This is a [Dependency Injection](http://www.martinfowler.com/articles/injection.
 
 This tool can help you if you need:
 
-Extensibility
-A generic configuration tool
-Support multiple deployment configurations
-Test-Driven Development philosophy or automate testing
+ Extensibility
+ A generic configuration tool
+ Support multiple deployment configurations
+ Test-Driven Development philosophy or automate testing
 
 Table of content:
 
