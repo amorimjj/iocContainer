@@ -28,6 +28,7 @@ Table of content:
         * [Registering a implementation to existing concrete class](#registering-a-implementation-to-existing-concrete-class)
         * [Registering instances](#registering-instances)
         * [Defining instance's default values](#defining-instances-default-values)
+    * [Resolving dependencies](#resolving-dependencies)
 
 Requirements
 ------------
@@ -214,7 +215,7 @@ $instance = $ioc->getInstance('Class0'); //$instance->prop0 has "test" as value
 ...
 ```
 
-Using Interfaces or Abstract Class, a concrete class should be specified.Use a key *'class'* on array to do it
+Using Interfaces or Abstract Class, a concrete class should be specified. Use a key *'class'* on array to do it
 
 ```php
 ...
@@ -224,5 +225,90 @@ $ioc->register('IClass',array(
                 ));
             
 $instance1 = $ioc->getInstance('IClass'); //$instance1 is a Class2 instance and $instance1->prop1 has "value1" as value
+...
+```
+### Resolving dependencies ###
+
+IocContainer will resolve all class dependencies. Class constructor should has parameters types specified.
+
+*Has not limit to construct parameters count.*
+
+
+```php
+...
+
+class Class1 {
+    
+    private $_class;
+
+    public function __construct(IClass $class) {
+        $this->_class = $class;
+    }
+    
+    public function exec()
+    {
+        $this->_class->method();
+    }
+    
+    public function getClass()
+    {
+        return $this->_class;
+    }
+}
+
+class Class10
+{
+    //your code here
+}
+
+class Class11
+{
+    public $dep;
+
+    public function __construct(Class10 $instance)
+    {
+        $this->dep = $instance;
+    }
+}
+
+class Class12
+{
+    public $dep1;
+    
+    public $dep2;
+    
+    public function __construct(Class11 $dep1, Class1 $dep2)
+    {
+        $this->dep1 = $dep1;
+        $this->dep2 = $dep2;
+    }
+}
+
+$instance = $ioc->getInstance('Class12');
+//$instance->dep1 is a instance of Class11
+//$instance->dep2 is a instance of Class1;
+//$instane->dep1->dep is a instance of Class10
+//$instance->dep2->getClass() will return a registered instance class of IClass
+
+...
+```
+Unspecified parameters will receive **null** as value.
+
+```php
+...
+
+class Class13
+{
+    public $dep = '';
+
+    public function __construct($param)
+    {
+        $this->dep = $param;
+    }
+}
+
+$instance = $ioc->getInstance('Class13');
+//$instance->dep as null
+
 ...
 ```
