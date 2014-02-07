@@ -28,7 +28,7 @@ Table of content:
         * [Registering a implementation to existing concrete class](#registering-a-implementation-to-existing-concrete-class)
         * [Registering instances](#registering-instances)
         * [Defining instance's default values](#defining-instances-default-values)
-        * [Batch register]
+        * [Batch register](#batch-register)
     * [Resolving dependencies](#resolving-dependencies)
 
 Requirements
