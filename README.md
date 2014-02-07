@@ -28,6 +28,7 @@ Table of content:
         * [Registering a implementation to existing concrete class](#registering-a-implementation-to-existing-concrete-class)
         * [Registering instances](#registering-instances)
         * [Defining instance's default values](#defining-instances-default-values)
+        * [Batch register]
     * [Resolving dependencies](#resolving-dependencies)
 
 Requirements
@@ -227,11 +228,33 @@ $ioc->register('IClass',array(
 $instance1 = $ioc->getInstance('IClass'); //$instance1 is a Class2 instance and $instance1->prop1 has "value1" as value
 ...
 ```
+
+#### Batch register ####
+
+All registers can be setted using one line config. ** This command will clear all configured registers and instances cannot be setted here. **
+
+```php
+...
+
+$ioc->setRegisters(
+    array(
+        'Class000'=>'Class0000',
+        'Class0'=>array('prop0'=>'test'),
+        'IClass' => array(
+            'class' => 'Class2',
+            'prop1' => 'value1'
+        )
+    )
+);
+
+...
+```
+
 ### Resolving dependencies ###
 
 IocContainer will resolve all class dependencies. Class constructor should has parameters types specified.
 
-*Has not limit to construct parameters count.*
+**Has not limit to construct parameters count.**
 
 
 ```php
@@ -292,7 +315,7 @@ $instance = $ioc->getInstance('Class12');
 
 ...
 ```
-Unspecified parameters will receive **null** as value.
+Unspecified parameters will receive *NULL* as value.
 
 ```php
 ...
