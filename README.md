@@ -18,7 +18,7 @@ Table of content:
 * [Install](#install)
 * [Use](#use)
     * [Getting ioc's container instance](#getting-iocs-container-instance)
-    * [Getting instance from a concrete class](#getting-instance-from-a-contrete-class)
+    * [Getting instance from a concrete class](#getting-instance-from-a-concrete-class)
     * [Getting singleton instances](#getting-singleton-instances)
     * [Getting instance from registered Interface](#getting-instance-from-registered-interface)
     * [Getting instance from registered Abstract Class](#getting-instance-from-registered-abstract-class)
@@ -231,7 +231,7 @@ $instance1 = $ioc->getInstance('IClass'); //$instance1 is a Class2 instance and 
 
 #### Batch register ####
 
-All registers can be setted using one line config. ** This command will clear all configured registers and instances cannot be setted here. **
+All registers can be setted using one line config. **This command will clear all configured registers and instances cannot be setted here.**
 
 ```php
 ...
@@ -331,7 +331,7 @@ class Class13
 }
 
 $instance = $ioc->getInstance('Class13');
-//$instance->dep as null
+//$instance->dep is NULL
 
 ...
 ```
